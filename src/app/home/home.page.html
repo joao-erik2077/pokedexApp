@@ -1,20 +1,28 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="danger">
     <ion-title>
-      Blank
+      Pokedex
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" color="light">
+  <ion-list>
+    <ion-item lines="full">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+      <ion-thumbnail slot="start">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png">
+      </ion-thumbnail>
+
+      <ion-label class="ion-text-wrap">
+        <div>
+          <p>Ditto</p>
+          <ion-chip>Normal</ion-chip>
+        </div>
+      </ion-label>
+
+      <ion-badge>214</ion-badge>
+    </ion-item>
+
+  </ion-list>
 </ion-content>
