@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{pokemon.nome}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <ion-card>
+    <img [src]="pokemon.img">
+
+    <ion-item class="ion-text-wrap" lines="none">
+      <ion-label>{{pokemon.nome}}</ion-label>
+      <ion-badge slot="end" color="danger">{{pokemon.numero}}</ion-badge>
+    </ion-item>
+
+    <ion-chip *ngFor="let tipo of pokemon.tipos">{{tipo}}</ion-chip>
+  </ion-card>
+</ion-content>

@@ -8,20 +8,20 @@
 
 <ion-content [fullscreen]="true" color="light">
   <ion-list>
-    <ion-item lines="full">
+    <ion-item lines="full" *ngFor="let pokemon of pokemons" (click)="exibirPokemon(pokemon)">
 
       <ion-thumbnail slot="start">
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png">
+        <img [src]="pokemon.img">
       </ion-thumbnail>
 
       <ion-label class="ion-text-wrap">
         <div>
-          <p>Ditto</p>
-          <ion-chip>Normal</ion-chip>
+          <p>{{pokemon.nome}}</p>
+          <ion-chip *ngFor="let tipo of pokemon.tipos">{{tipo}}</ion-chip>
         </div>
       </ion-label>
 
-      <ion-badge>214</ion-badge>
+      <ion-badge color="danger">{{pokemon.numero}}</ion-badge>
     </ion-item>
 
   </ion-list>
