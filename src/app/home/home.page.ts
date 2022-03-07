@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DadosPokemonService } from '../services/dados-pokemon.service';
-import { Pokemon } from '../models/Pokemon.model';
+import { PokemonClient } from 'pokenode-ts';
 
 @Component({
   selector: 'app-home',
@@ -9,28 +9,53 @@ import { Pokemon } from '../models/Pokemon.model';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  pokemons: Pokemon[] = [
-    {
-      img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png',
-      nome: 'Ditto',
-      tipos: ['Normal'],
-      numero: 214,
-    },
-    {
-      img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
-      nome: 'Charmander',
-      tipos: ['Fogo'],
-      numero: 5,
-    },
-  ];
+  pokemonCliente = new PokemonClient();
+
+  pokemons: any = [];
+  pokemonsPage: any = [];
+  private readonly offset: number = 20;
+  private index: number = 0;
+
+  totalPokemons = 898;
 
   constructor(
     private route: Router,
     private dadosPokemonService: DadosPokemonService
-  ) {}
+  ) {
+    this.getPokemons();
+  }
+
+  async getPokemons() {
+    for (let i = 1; i <= this.totalPokemons; i++) {
+      console.log(i);
+      await this.pokemonCliente
+        .getPokemonById(i)
+        .then((data) => {
+          this.pokemons.push(data);
+        })
+        .catch((error) => console.error(error));
+    }
+    this.pokemonsPage = this.pokemons.slice(this.index, this.offset + this.index);
+    this.index += this.offset;
+  }
 
   exibirPokemon(pokemon) {
     this.dadosPokemonService.guardarDados('pokemon', pokemon);
     this.route.navigateByUrl('pokemon');
+  }
+
+  loadData(event) {
+    let news = this.pokemons.slice(this.index, this.offset + this.index);
+    this.index += this.offset;
+
+    for (let i = 0; i < news.length; i++) {
+      this.pokemonsPage.push(news[i]);
+    }
+
+    event.target.complete();
+
+    if (this.pokemonsPage.length === this.totalPokemons) {
+      event.target.disabled = true;
+    }
   }
 }
