@@ -26,7 +26,7 @@ export class HomePage {
   }
 
   async getPokemons() {
-    for (let i = 1; i <= this.totalPokemons; i++) {
+    for (let i = this.index+1; i <= this.offset+this.index; i++) {
       console.log(i);
       await this.pokemonCliente
         .getPokemonById(i)
@@ -35,7 +35,7 @@ export class HomePage {
         })
         .catch((error) => console.error(error));
     }
-    this.pokemonsPage = this.pokemons.slice(this.index, this.offset + this.index);
+    this.pokemonsPage = this.pokemons.slice(0, this.offset + this.index);
     this.index += this.offset;
   }
 
@@ -45,12 +45,7 @@ export class HomePage {
   }
 
   loadData(event) {
-    let news = this.pokemons.slice(this.index, this.offset + this.index);
-    this.index += this.offset;
-
-    for (let i = 0; i < news.length; i++) {
-      this.pokemonsPage.push(news[i]);
-    }
+    this.getPokemons();
 
     event.target.complete();
 
