@@ -1,8 +1,14 @@
-ion-item {
+.center {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+ion-card {
+  padding: 5%;
 
-  ion-thumbnail {
-    height: 100px;
-    width: 100px;
+  ion-card-title {
+    margin-bottom: 25px;
   }
 }

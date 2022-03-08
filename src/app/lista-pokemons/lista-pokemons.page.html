@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Pokedex
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <ion-list *ngIf="pokemonsPage">
+
+    <ion-item *ngIf="pokemonsPage.length === 0" lines="none">
+      <ion-label>Carregando pokemons</ion-label>
+    </ion-item>
+
+    <ion-item lines="full" *ngFor="let pokemon of pokemonsPage" (click)="exibirPokemon(pokemon)">
+      <ion-thumbnail slot="start">
+        <img [src]="pokemon.sprites.front_default">
+      </ion-thumbnail>
+
+      <ion-label class="ion-text-wrap">
+        <div>
+          <p>{{pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}}</p>
+          <ion-chip *ngFor="let type of pokemon.types">{{type.type.name[0].toUpperCase() + type.type.name.slice(1)}}</ion-chip>
+        </div>
+      </ion-label>
+
+      <ion-badge color="danger">{{pokemon.id}}</ion-badge>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Carregando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
