@@ -10,6 +10,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
+
+  <ion-searchbar placeholder="Digite o nome do pokemon..." [(ngModel)]="pesquisa" (change)="buscarPokemon($event)">
+  </ion-searchbar>
+
   <ion-list *ngIf="pokemonsPage">
 
     <ion-item *ngIf="pokemonsPage.length === 0" lines="none">
@@ -24,7 +28,8 @@
       <ion-label class="ion-text-wrap">
         <div>
           <p>{{pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}}</p>
-          <ion-chip *ngFor="let type of pokemon.types">{{type.type.name[0].toUpperCase() + type.type.name.slice(1)}}</ion-chip>
+          <ion-chip *ngFor="let type of pokemon.types">{{type.type.name[0].toUpperCase() + type.type.name.slice(1)}}
+          </ion-chip>
         </div>
       </ion-label>
 
@@ -34,9 +39,7 @@
   </ion-list>
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Carregando...">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Carregando...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
