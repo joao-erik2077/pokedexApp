@@ -60,7 +60,7 @@ export class ListaPokemonsPage {
   async buscarPokemon(event) {
     if (this.pesquisa && this.pesquisa.trim() !== '') {
       await this.pokemonCliente
-        .getPokemonByName(this.pesquisa)
+        .getPokemonByName(this.pesquisa.toLowerCase())
         .then((data) => {
           this.exibirPokemon(data);
         })
