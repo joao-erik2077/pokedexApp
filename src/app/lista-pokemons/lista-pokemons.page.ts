@@ -14,6 +14,7 @@ export class ListaPokemonsPage {
 
   pesquisa: string;
   pokemons: any = [];
+  pokemonSprite: any = [];
   pokemonsPage: any = [];
   private readonly offset: number = 20;
   private index: number = 0;
@@ -35,6 +36,7 @@ export class ListaPokemonsPage {
         .getPokemonById(i)
         .then((data) => {
           this.pokemons.push(data);
+          this.setSprite(data, false);
         })
         .catch((error) => console.error(error));
     }
@@ -72,8 +74,33 @@ export class ListaPokemonsPage {
     const toast = await this.toastController.create({
       message: 'Pokemon nao encontrado',
       color: 'danger',
-      duration: 2000
+      duration: 2000,
     });
     toast.present();
+  }
+
+  getColor(tipo): string {
+    return `type-${tipo.type.name}`;
+  }
+
+  getIdFormatado(id: number): string {
+    const tamanhoTotal = 3;
+    let idString = String(id);
+
+    for (let i = idString.length; i < tamanhoTotal; i++) {
+      idString = `0${idString}`;
+    }
+
+    return idString;
+  }
+
+  transformarShiny(pokemon) {
+    if (this.pokemonSprite[pokemon.id] === pokemon.sprites.front_default)
+      this.setSprite(pokemon, true);
+    else this.setSprite(pokemon, false);
+  }
+  setSprite(pokemon, shiny: boolean) {
+    if (shiny) this.pokemonSprite[pokemon.id] = pokemon.sprites.front_shiny;
+    else this.pokemonSprite[pokemon.id] = pokemon.sprites.front_default;
   }
 }
