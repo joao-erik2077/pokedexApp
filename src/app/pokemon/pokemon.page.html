@@ -3,13 +3,27 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}}</ion-title>
+    <ion-title *ngIf="pokemon">{{pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="light">
-  <ion-card>
-    <img [src]="pokemon.sprites.front_default">
+  <ion-card *ngIf="pokemon">
+    <ion-slides pager="true" [options]="slideOpts">
+      <ion-slide>
+        <img [src]="pokemon.sprites.front_default">
+      </ion-slide>
+      <ion-slide>
+        <img [src]="pokemon.sprites.front_shiny">
+      </ion-slide>
+      <ion-slide *ngIf="pokemon.sprites.front_female">
+        <img [src]="pokemon.sprites.front_female">
+      </ion-slide>
+      <ion-slide *ngIf="pokemon.sprites.front_shiny_female">
+        <img [src]="pokemon.sprites.front_shiny_female">
+      </ion-slide>
+    </ion-slides>
+
 
     <ion-segment (ionChange)="segmentChange($event)" value="dados">
       <ion-segment-button value="dados">
@@ -17,6 +31,9 @@
       </ion-segment-button>
       <ion-segment-button value="moves">
         <ion-label>Moves</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="stats">
+        <ion-label>Base Stats</ion-label>
       </ion-segment-button>
     </ion-segment>
 
@@ -26,16 +43,44 @@
         <ion-badge slot="end" color="danger">{{pokemon.id}}</ion-badge>
       </ion-item>
 
-      <ion-badge [color]="getColor(type)" *ngFor="let type of pokemon.types">{{type.type.name[0].toUpperCase() + type.type.name.slice(1)}}
+      <ion-badge [color]="getColor(type)" *ngFor="let type of pokemon.types">
+        {{type.type.name[0].toUpperCase() + type.type.name.slice(1)}}
       </ion-badge>
     </div>
 
     <div *ngIf="actualSegment === 'moves'">
       <ion-list>
-        <ion-item *ngFor="let move of pokemon.moves">
-          <ion-label>{{move.move.name}}</ion-label>
+        <ion-item *ngFor="let move of movesPage">
+          <ion-label>{{move.name}}</ion-label>
+          <ion-badge [color]="getMoveColor(move.type.name)">
+            {{ move.type.name[0].toUpperCase() + move.type.name.slice(1) }}
+          </ion-badge>
         </ion-item>
       </ion-list>
+
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Carregando...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </div>
+
+    <div class="ion-text-wrap" *ngIf="actualSegment === 'stats'">
+      <ion-item *ngFor="let stat of pokemon.stats">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="2">
+              <ion-label class="center stat-name">{{getStatNameFormatted(stat.stat.name)}}</ion-label>
+            </ion-col>
+            <ion-col size="8">
+              <ion-range style="pointer-events: none;" color="danger" min="1" max="255" [value]="stat.base_stat" [pin]="true">
+              </ion-range>
+            </ion-col>
+            <ion-col size="2">
+              <ion-label class="center">{{stat.base_stat}}</ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
     </div>
 
   </ion-card>

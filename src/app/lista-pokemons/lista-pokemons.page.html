@@ -29,7 +29,7 @@
         <ion-label>Carregando pokemons</ion-label>
       </ion-item>
 
-      <ion-item lines="full" (click)="exibirPokemon(pokemon)">
+      <ion-item lines="full" (click)="exibirPokemon(pokemon.id)">
         <ion-thumbnail slot="start">
           <img [src]="pokemonSprite[pokemon.id]">
         </ion-thumbnail>

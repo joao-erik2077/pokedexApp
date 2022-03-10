@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DadosPokemonService } from '../services/dados-pokemon.service';
 import { PokemonClient } from 'pokenode-ts';
@@ -18,6 +18,7 @@ export class ListaPokemonsPage {
   pokemonsPage: any = [];
   private readonly offset: number = 20;
   private index: number = 0;
+  loading: boolean;
 
   totalPokemons = 898;
 
@@ -30,7 +31,9 @@ export class ListaPokemonsPage {
   }
 
   async getPokemons() {
+    this.loading = true;
     for (let i = this.index + 1; i <= this.offset + this.index; i++) {
+      if (i > this.totalPokemons) break;
       console.log(i);
       await this.pokemonCliente
         .getPokemonById(i)
@@ -42,15 +45,16 @@ export class ListaPokemonsPage {
     }
     this.pokemonsPage = this.pokemons.slice(0, this.offset + this.index);
     this.index += this.offset;
+    this.loading = false;
   }
 
-  exibirPokemon(pokemon) {
-    this.dadosPokemonService.guardarDados('pokemon', pokemon);
+  exibirPokemon(id: number) {
+    this.dadosPokemonService.guardarDados('pokemon', id);
     this.route.navigateByUrl('pokemon');
   }
 
-  loadData(event) {
-    this.getPokemons();
+  async loadData(event) {
+    if (!this.loading) await this.getPokemons();
 
     event.target.complete();
 
@@ -64,7 +68,7 @@ export class ListaPokemonsPage {
       await this.pokemonCliente
         .getPokemonByName(this.pesquisa.toLowerCase())
         .then((data) => {
-          this.exibirPokemon(data);
+          this.exibirPokemon(data.id);
         })
         .catch((error) => this.pokemonToast());
     }
