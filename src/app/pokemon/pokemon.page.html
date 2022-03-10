@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{pokemon.nome}}</ion-title>
+    <ion-title>{{pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,11 +11,32 @@
   <ion-card>
     <img [src]="pokemon.sprites.front_default">
 
-    <ion-item class="ion-text-wrap" lines="none">
-      <ion-label>{{pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}}</ion-label>
-      <ion-badge slot="end" color="danger">{{pokemon.id}}</ion-badge>
-    </ion-item>
+    <ion-segment (ionChange)="segmentChange($event)" value="dados">
+      <ion-segment-button value="dados">
+        <ion-label>Dados</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="moves">
+        <ion-label>Moves</ion-label>
+      </ion-segment-button>
+    </ion-segment>
 
-    <ion-chip *ngFor="let type of pokemon.types">{{type.type.name[0].toUpperCase() + type.type.name.slice(1)}}</ion-chip>
+    <div *ngIf="actualSegment === 'dados'">
+      <ion-item class="ion-text-wrap" lines="none">
+        <ion-label>{{pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}}</ion-label>
+        <ion-badge slot="end" color="danger">{{pokemon.id}}</ion-badge>
+      </ion-item>
+
+      <ion-badge [color]="getColor(type)" *ngFor="let type of pokemon.types">{{type.type.name[0].toUpperCase() + type.type.name.slice(1)}}
+      </ion-badge>
+    </div>
+
+    <div *ngIf="actualSegment === 'moves'">
+      <ion-list>
+        <ion-item *ngFor="let move of pokemon.moves">
+          <ion-label>{{move.move.name}}</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
   </ion-card>
 </ion-content>
