@@ -46,6 +46,34 @@
       <ion-badge [color]="getColor(type)" *ngFor="let type of pokemon.types">
         {{type.type.name[0].toUpperCase() + type.type.name.slice(1)}}
       </ion-badge>
+
+      <h1 class="center">Ataque</h1>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4" *ngFor="let type of typeRelations">
+            <div class="type-relation">
+              <ion-item-divider [color]="getTypeRelationColorATK(type.valueATK)">
+                <ion-label class="center">{{type.name[0].toUpperCase() + type.name.slice(1)}}</ion-label>
+              </ion-item-divider>
+              <ion-label [color]="getTypeRelationColorATK(type.valueATK)">{{type.valueATK}}</ion-label>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <h1 class="center">Defesa</h1>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4" *ngFor="let type of typeRelations">
+            <div class="type-relation">
+              <ion-item-divider [color]="getTypeRelationColorDEF(type.valueDEF)">
+                <ion-label class="center">{{type.name[0].toUpperCase() + type.name.slice(1)}}</ion-label>
+              </ion-item-divider>
+              <ion-label [color]="getTypeRelationColorDEF(type.valueDEF)">{{type.valueDEF}}</ion-label>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
 
     <div *ngIf="actualSegment === 'moves'">
@@ -72,7 +100,8 @@
               <ion-label class="center stat-name">{{getStatNameFormatted(stat.stat.name)}}</ion-label>
             </ion-col>
             <ion-col size="8">
-              <ion-range style="pointer-events: none;" color="danger" min="1" max="255" [value]="stat.base_stat" [pin]="true">
+              <ion-range style="pointer-events: none;" color="danger" min="1" max="255" [value]="stat.base_stat"
+                [pin]="true">
               </ion-range>
             </ion-col>
             <ion-col size="2">

@@ -19,3 +19,18 @@ ion-card {
 .stat-name {
   margin-left: -7px;
 }
+
+.type-relation {
+  text-align: center;
+  border: 1px black solid;
+
+  ion-item-divider {
+    ion-label {
+      font-size: 20px;
+    }
+  }
+
+  ion-label {
+    font-size: 27px;
+  }
+}
