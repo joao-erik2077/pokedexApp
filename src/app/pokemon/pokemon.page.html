@@ -40,13 +40,17 @@
     <div *ngIf="actualSegment === 'dados'">
       <ion-item class="ion-text-wrap" lines="none">
         <ion-label>{{pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}}</ion-label>
-        <ion-badge slot="end" color="danger">{{pokemon.id}}</ion-badge>
+        <ion-badge slot="end" color="medium">#{{getIdFormatado(pokemon.id)}}</ion-badge>
       </ion-item>
 
       <ion-badge [color]="getColor(type)" *ngFor="let type of pokemon.types">
         {{type.type.name[0].toUpperCase() + type.type.name.slice(1)}}
       </ion-badge>
 
+      <ion-item>
+        <h1 class="center">Relações de tipos</h1>
+        <ion-toggle [(ngModel)]="percent" slot="end" color="danger"></ion-toggle>
+      </ion-item>
       <h1 class="center">Ataque</h1>
       <ion-grid>
         <ion-row>
@@ -55,7 +59,7 @@
               <ion-item-divider [color]="getTypeRelationColorATK(type.valueATK)">
                 <ion-label class="center">{{type.name[0].toUpperCase() + type.name.slice(1)}}</ion-label>
               </ion-item-divider>
-              <ion-label [color]="getTypeRelationColorATK(type.valueATK)">{{type.valueATK}}</ion-label>
+              <ion-label [color]="getTypeRelationColorATK(type.valueATK)">{{getValue(type.valueATK)}}</ion-label>
             </div>
           </ion-col>
         </ion-row>
@@ -69,7 +73,7 @@
               <ion-item-divider [color]="getTypeRelationColorDEF(type.valueDEF)">
                 <ion-label class="center">{{type.name[0].toUpperCase() + type.name.slice(1)}}</ion-label>
               </ion-item-divider>
-              <ion-label [color]="getTypeRelationColorDEF(type.valueDEF)">{{type.valueDEF}}</ion-label>
+              <ion-label [color]="getTypeRelationColorDEF(type.valueDEF)">{{getValue(type.valueDEF)}}</ion-label>
             </div>
           </ion-col>
         </ion-row>

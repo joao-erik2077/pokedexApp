@@ -14,6 +14,7 @@ export class PokemonPage implements OnInit {
   pokemonClient = new PokemonClient();
   moveClient = new MoveClient();
 
+  private percent: boolean;
   private moves: any = [];
   private loading: boolean;
   private movesPage: any = [];
@@ -281,5 +282,29 @@ export class PokemonPage implements OnInit {
     if (value === 1) return 'medium';
     if (value <= 0.5) return 'success';
     if (value >= 2) return 'danger';
+  }
+
+  getIdFormatado(id: number): string {
+    const tamanhoTotal = 3;
+    let idString = String(id);
+
+    for (let i = idString.length; i < tamanhoTotal; i++) {
+      idString = `0${idString}`;
+    }
+
+    return idString;
+  }
+
+  getValue(value) {
+    if (this.percent) {
+      return `${value*100}%`;
+    } else {
+      if (value === 4) return '4x';
+      if (value === 2) return '2x';
+      if (value === 1) return '1x';
+      if (value === 0) return '0';
+      if (value === 0.5) return '1/2';
+      if (value === 0.25) return '1/4';
+    }
   }
 }
